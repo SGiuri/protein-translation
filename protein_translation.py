@@ -1,5 +1,3 @@
-import re
-
 def proteins(strand):
     '''
     Codon	Protein
@@ -15,35 +13,37 @@ def proteins(strand):
     :return:
     '''
 
-    protein_translation = {"AUG":"Methionine",
-                           "UUUUUC":"Phenylalanine",
-                           "UUAUUG":"Leucine",
-                           "UCUUCCUCAUCG": "Serine",
-                           "UAUUAC": "Tyrosine",
-                           "UGUUGC": "Cysteine",
-                           "UGG": "Tryptophan",
-                           "UAAUAGUGA": "STOP"}
-    codons = list(protein_translation.keys())
-    print(codons)
-    to_return = []
+    codons_translation = {"AUG": "Methionine",
+                          "UUU": "Phenylalanine", "UUC": "Phenylalanine",
+                          "UUA": "Leucine",
+                          "UUG": "Leucine",
+                          "UCU": "Serine",
+                          "UCC": "Serine",
+                          "UCA": "Serine",
+                          "UCG": "Serine",
+                          "UAU": "Tyrosine",
+                          "UAC": "Tyrosine",
+                          "UGU": "Cysteine",
+                          "UGC": "Cysteine",
+                          "UGG": "Tryptophan"}
+    stop_codons = ["UAA", "UAG", "UGA"]
+    print(strand)
+    for stop_codon in stop_codons:
+        if strand.find(stop_codon) > 0:
+            strand = strand[:strand.find(stop_codon)]
+        print(strand)
+    codons = codons_translation.keys()
 
-    codon1 = f"{codons[0]}"
-    print(codon1)
-
-    matches = re.match(codon1, strand)
+    matches = []
+    for codon in codons:
+        match = strand.find(codon)
+        if match >= 0:
+            matches.append(codons_translation[codon])
     print(matches)
-
-    '''
-    for condon in codons:
-        matches = re.match(r"{codon}",strand)
-        for match in matches:
-            to_return.append(protein_translation[match])
-            print(match)
-    '''
-    return to_return
+    return matches
     pass
 
 
-value = "AUGUGGUAGUGG"
+value = "UGGUGUUAUUAAUGGUUU"
 
 proteins(value)
