@@ -12,7 +12,7 @@ def proteins(strand):
     :param strand:
     :return:
     '''
-
+    # test of git
     codons_translation = {"AUG": "Methionine",
                           "UUU": "Phenylalanine", "UUC": "Phenylalanine",
                           "UUA": "Leucine",
