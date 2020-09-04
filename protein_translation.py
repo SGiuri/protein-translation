@@ -9,41 +9,33 @@ def proteins(strand):
     UGU, UGC	        Cysteine
     UGG	                Tryptophan
     UAA, UAG, UGA	    STOP
-    :param strand:
-    :return:
+    :param strand: a string containing Codon to be matched
+    :return: a list of proteins
     '''
-    # test of git
+
+    # a dictionary containing codon-protein association
     codons_translation = {"AUG": "Methionine",
                           "UUU": "Phenylalanine", "UUC": "Phenylalanine",
-                          "UUA": "Leucine",
-                          "UUG": "Leucine",
-                          "UCU": "Serine",
-                          "UCC": "Serine",
-                          "UCA": "Serine",
-                          "UCG": "Serine",
-                          "UAU": "Tyrosine",
-                          "UAC": "Tyrosine",
-                          "UGU": "Cysteine",
-                          "UGC": "Cysteine",
+                          "UUA": "Leucine", "UUG": "Leucine",
+                          "UCU": "Serine", "UCC": "Serine", "UCA": "Serine", "UCG": "Serine",
+                          "UAU": "Tyrosine", "UAC": "Tyrosine",
+                          "UGU": "Cysteine", "UGC": "Cysteine",
                           "UGG": "Tryptophan"}
+
+    # reserved dictionary for stop codons
     stop_codons = ["UAA", "UAG", "UGA"]
-    print(strand)
-    for stop_codon in stop_codons:
-        if strand.find(stop_codon) > 0:
-            strand = strand[:strand.find(stop_codon)]
-        print(strand)
-    codons = codons_translation.keys()
 
-    matches = []
-    for codon in codons:
-        match = strand.find(codon)
-        if match >= 0:
-            matches.append(codons_translation[codon])
-    print(matches)
-    return matches
-    pass
+    # 3 char splitting of the string
+    strand_splitted = [strand[j-3:j] for j in range(3,len(strand)+1,3)]
 
+    # searching stop codons and deleting codons after the stop
+    for j in range(len(stop_codons)):
 
-value = "UGGUGUUAUUAAUGGUUU"
+        if stop_codons[j] in strand_splitted:
+            k = strand_splitted.index(stop_codons[j])
+            strand_splitted = strand_splitted[0:k]
 
-proteins(value)
+    # creating the list of protiens
+    proteins = [codons_translation[x] for x in strand_splitted]
+
+    return proteins
